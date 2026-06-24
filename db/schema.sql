@@ -1,4 +1,15 @@
+DROP TABLE IF EXISTS decks;
+DROP TABLE IF EXISTS games_users;
+DROP TABLE IF EXISTS games;
+DROP TABLE IF EXISTS cards;
+DROP TABLE IF EXISTS card_categories;
 DROP TABLE IF EXISTS users;
+
+CREATE TABLE "users" (
+  "id" serial PRIMARY KEY,
+  "username" text UNIQUE NOT NULL,
+  "password" text NOT NULL
+);
 
 CREATE TABLE "card_categories" (
   "id" serial PRIMARY KEY,
@@ -8,52 +19,32 @@ CREATE TABLE "card_categories" (
   "description" text NOT NULL
 );
 
-CREATE TABLE "card_compendiums" (
+CREATE TABLE "cards" (
   "id" serial PRIMARY KEY,
   "name" text NOT NULL,
-  "category" integer NOT NULL,
+  "category" integer NOT NULL REFERENCES card_categories(id) ON DELETE CASCADE,
   "card_front_url" text NOT NULL,
   "content" json NOT NULL
-);
-
-CREATE TABLE "users" (
-  "id" serial PRIMARY KEY,
-  "username" text UNIQUE NOT NULL,
-  "password" text NOT NULL
 );
 
 CREATE TABLE "games" (
   "id" serial PRIMARY KEY,
   "name" text NOT NULL,
-  "dm_id" integer NOT NULL,
+  "dm_id" integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   "created_at" timestamp NOT NULL
 );
 
 CREATE TABLE "games_users" (
   "id" serial PRIMARY KEY,
-  "game_id" integer NOT NULL,
-  "user_id" integer NOT NULL,
+  "game_id" integer NOT NULL REFERENCES games(id) ON DELETE CASCADE,
+  "user_id" integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   "is_dm" boolean NOT NULL
 );
 
 CREATE TABLE "decks" (
   "id" serial PRIMARY KEY,
-  "game_id" integer NOT NULL,
-  "user_id" integer NOT NULL,
-  "card_id" integer NOT NULL
+  "game_id" integer NOT NULL REFERENCES games(id) ON DELETE CASCADE,
+  "user_id" integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  "card_id" integer NOT NULL REFERENCES cards(id) ON DELETE CASCADE
 );
-
-ALTER TABLE "card_compendiums" ADD FOREIGN KEY ("category") REFERENCES "card_categories" ("id") DEFERRABLE INITIALLY IMMEDIATE;
-
-ALTER TABLE "games" ADD FOREIGN KEY ("dm_id") REFERENCES "users" ("id") DEFERRABLE INITIALLY IMMEDIATE;
-
-ALTER TABLE "games_users" ADD FOREIGN KEY ("game_id") REFERENCES "games" ("id") DEFERRABLE INITIALLY IMMEDIATE;
-
-ALTER TABLE "games_users" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") DEFERRABLE INITIALLY IMMEDIATE;
-
-ALTER TABLE "decks" ADD FOREIGN KEY ("game_id") REFERENCES "games" ("id") DEFERRABLE INITIALLY IMMEDIATE;
-
-ALTER TABLE "decks" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") DEFERRABLE INITIALLY IMMEDIATE;
-
-ALTER TABLE "decks" ADD FOREIGN KEY ("card_id") REFERENCES "card_compendiums" ("id") DEFERRABLE INITIALLY IMMEDIATE;
 
