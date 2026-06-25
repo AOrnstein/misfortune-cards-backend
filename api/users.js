@@ -8,7 +8,7 @@ import { createToken } from "#utils/jwt";
 /*Route handler used to create an account for user
 requireBody ensures username and password exist
 creates user and token for correct login credentials
-sends 201 successful response */
+sends 201 successful response. */
 router
   .route("/register")
   .post(requireBody(["username", "password"]), async (req, res) => {
