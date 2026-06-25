@@ -1,6 +1,6 @@
 import db from "#db/client";
 
-/** Creates a new game */
+/** Create a new game by the user */
 export async function createGame({ name, dmId }) {
   const sql = `
     INSERT INTO games

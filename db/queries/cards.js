@@ -1,10 +1,10 @@
 import db from "#db/client";
 
-/** Adds a new card to database */
+/** Add a new card for the category */
 export async function createCard({ name, categoryId, cardFrontUrl, content }) {
   const sql = `
     INSERT INTO cards
-      (name, category, card_front_url, content)
+      (name, category_id, card_front_url, content)
     VALUES
       ($1, $2, $3. $4)
     RETURNING *
