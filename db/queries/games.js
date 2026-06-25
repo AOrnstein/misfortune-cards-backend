@@ -16,3 +16,11 @@ export async function createGame({ name, dmId, createdAt }) {
 }
 
 /** Sends all games that are in progress */
+export async function getGames() {
+  const sql = `
+    SELECT *
+    FROM games
+    `;
+  const { rows: games } = await db.query(sql);
+  return games;
+}
