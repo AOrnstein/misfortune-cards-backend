@@ -22,7 +22,7 @@ CREATE TABLE card_categories (
 CREATE TABLE cards (
   id serial PRIMARY KEY,
   name text NOT NULL,
-  category integer NOT NULL REFERENCES card_categories(id) ON DELETE CASCADE,
+  category_id integer NOT NULL REFERENCES card_categories(id) ON DELETE CASCADE,
   card_front_url text NOT NULL,
   content json NOT NULL
 );
