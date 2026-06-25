@@ -1,6 +1,6 @@
 import db from "#db/client";
 
-/** @adds a new user within a game?? */
+/** Adds a new user within a game?? */
 export async function createGameUser({ gameId, userId, isDm }) {
   const sql = `
     INSERT INTO games_users

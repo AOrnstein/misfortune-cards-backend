@@ -1,6 +1,6 @@
 import db from "#db/client";
 
-/** @adds a new card category to database */
+/** Adds a new card category to database */
 export async function createCardCategory({
   name,
   cardBackUrl,

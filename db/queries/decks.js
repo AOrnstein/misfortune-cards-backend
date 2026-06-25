@@ -1,6 +1,6 @@
 import db from "#db/client";
 
-/** @adds a card to a player's deck */
+/** Adds a card to a player's deck */
 export async function createDeck({ gameId, userId, cardId }) {
   const sql = `
     INSERT INTO decks

@@ -1,6 +1,6 @@
 import db from "#db/client";
 
-/** @adds a new card to database */
+/** Adds a new card to database */
 export async function createCard({ name, category, cardFrontUrl, content }) {
   const sql = `
     INSERT INTO cards
