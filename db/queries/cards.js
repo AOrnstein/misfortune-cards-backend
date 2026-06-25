@@ -1,24 +1,16 @@
 import db from "#db/client";
 
-/** Sends array of all cards */
-export async function getCards() {
+/** @adds a new card to database */
+export async function createCard({ name, category, cardFrontUrl, content }) {
   const sql = `
-    SELECT *
-    FROM cards
-    `;
-  const { rows: cards } = await db.query(sql);
-  return cards;
-}
-
-/** Sends specific card by id */
-export async function getCardById(id) {
-  const sql = `
-    SELECT *
-    FROM cards
-    WHERE id = $1
+    INSERT INTO cards
+      (name, category, card_front_url, content)
+    VALUES
+      ($1, $2, $3. $4)
+    RETURNING *
     `;
   const {
     rows: [card],
-  } = await db.query(sql, [id]);
+  } = await db.query(sql, [name, category, cardFrontUrl, content]);
   return card;
 }
