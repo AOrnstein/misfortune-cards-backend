@@ -31,7 +31,7 @@ CREATE TABLE games (
   id serial PRIMARY KEY,
   name text NOT NULL,
   dm_id integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  created_at timestamp NOT NULL
+  created_at timestamp NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE games_users (
