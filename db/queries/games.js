@@ -1,37 +1,16 @@
 import db from "#db/client";
 
-/** Creates a new game */
-export async function createGame({ name, dmId, createdAt }) {
+/** @creates a new game */
+export async function createGame({ name, dmId }) {
   const sql = `
     INSERT INTO games
-      (name, dm_id, created_at)
+      (name, dm_id)
     VALUES
       ($1, $2,)
     RETURNING *
     `;
   const {
     rows: [game],
-  } = await db.query(sql, [name, dmId, createdAt]);
+  } = await db.query(sql, [name, dmId]);
   return game;
-}
-
-/** Sends all games that are in progress */
-export async function getGames() {
-  const sql = `
-    SELECT *
-    FROM games
-    `;
-  const { rows: games } = await db.query(sql);
-  return games;
-}
-
-/** Sends specific game based on user_id */
-export async function getGamesByUserId(id) {
-  const sql = `
-    SELECT *
-    FROM games
-    WHERE user_id = $1
-    `;
-  const { rows: games } = await db.query(sql, [id]);
-  return games;
 }
