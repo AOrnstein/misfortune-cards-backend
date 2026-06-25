@@ -2,9 +2,20 @@ import express from "express";
 const router = express.Router();
 export default router;
 
-import { getCards } from "#db/queries/cards";
+import { getCards, getCardById } from "#db/queries/cards";
 
 router.get("/", async (req, res) => {
   const cards = await getCards();
   res.send(cards);
+});
+
+router.param("id", async (req, res, next, id) => {
+  const card = await getCardById(id);
+  if (!card) return res.status(404).send("Card not found.");
+  req.card = card;
+  next();
+});
+
+router.get("/:id", (req, res) => {
+  res.send(req.card);
 });
