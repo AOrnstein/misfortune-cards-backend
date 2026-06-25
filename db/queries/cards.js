@@ -1,7 +1,7 @@
 import db from "#db/client";
 
 /** Adds a new card to database */
-export async function createCard({ name, category, cardFrontUrl, content }) {
+export async function createCard({ name, categoryId, cardFrontUrl, content }) {
   const sql = `
     INSERT INTO cards
       (name, category, card_front_url, content)
@@ -11,6 +11,6 @@ export async function createCard({ name, category, cardFrontUrl, content }) {
     `;
   const {
     rows: [card],
-  } = await db.query(sql, [name, category, cardFrontUrl, content]);
+  } = await db.query(sql, [name, categoryId, cardFrontUrl, content]);
   return card;
 }
