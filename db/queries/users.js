@@ -1,6 +1,8 @@
 import db from "#db/client";
 import bcrypt from "bcrypt";
-
+/*Hash password
+save user to the database
+return the user */
 export async function createUser(username, password) {
   const sql = `
   INSERT INTO users
@@ -15,7 +17,8 @@ export async function createUser(username, password) {
   } = await db.query(sql, [username, hashedPassword]);
   return user;
 }
-
+/*Find user by username if no user found return null
+Compare the password entered with hashed password */
 export async function getUserByUsernameAndPassword(username, password) {
   const sql = `
   SELECT *
@@ -32,7 +35,7 @@ export async function getUserByUsernameAndPassword(username, password) {
 
   return user;
 }
-
+/*Find user with matching id */
 export async function getUserById(id) {
   const sql = `
   SELECT *
