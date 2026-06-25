@@ -20,3 +20,14 @@ export async function getDeckById(id) {
   const { rows: deck } = await db.query(sql);
   return deck;
 }
+
+/** Sends an array of decks by specific user */
+export async function getDecksByUserId(id) {
+  const sql = `
+    SELECT *
+    FROM decks
+    WHERE user_id = $1
+    `;
+  const { rows: decks } = await db.query(sql, [id]);
+  return decks;
+}
