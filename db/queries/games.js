@@ -24,3 +24,14 @@ export async function getGames() {
   const { rows: games } = await db.query(sql);
   return games;
 }
+
+/** Sends specific game based on user_id */
+export async function getGamesByUserId(id) {
+  const sql = `
+    SELECT *
+    FROM games
+    WHERE user_id = $1
+    `;
+  const { rows: games } = await db.query(sql, [id]);
+  return games;
+}
