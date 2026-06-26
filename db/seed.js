@@ -18,7 +18,7 @@ async function seed() {
   const userPlayer = await createUser("bar", "foo");
 
   // seed with Deck of Many Things
-  const [cardCatagory, cards] = await initDbWithDeckOfManyThings();
+  const [cardCategory, cards] = await initDbWithDeckOfManyThings();
 
   const game = await createGame({
     name: "Sample Game",
@@ -41,10 +41,10 @@ async function seed() {
 
 /**
  * initialize the DB with the Deck of Many Things
- * @returns [cardCatagory, cards[]]
+ * @returns [cardCategory, cards[]]
  */
 async function initDbWithDeckOfManyThings() {
-  const catagory = await createCardCategory({
+  const category = await createCardCategory({
     name: domtData.name,
     description: domtData.description,
     cardSize: JSON.stringify(domtData.card_size),
@@ -56,7 +56,7 @@ async function initDbWithDeckOfManyThings() {
     cards.push(
       await createCard({
         name: card.name,
-        categoryId: catagory.id,
+        categoryId: category.id,
         description: card.description,
         cardFrontUrl: card.image_url,
         content: {
@@ -66,5 +66,5 @@ async function initDbWithDeckOfManyThings() {
       }),
     );
   }
-  return [catagory, cards];
+  return [category, cards];
 }
