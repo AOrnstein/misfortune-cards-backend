@@ -6,7 +6,7 @@ export async function createCard({ name, categoryId, cardFrontUrl, content }) {
     INSERT INTO cards
       (name, category_id, card_front_url, content)
     VALUES
-      ($1, $2, $3. $4)
+      ($1, $2, $3, $4)
     RETURNING *
     `;
   const {
