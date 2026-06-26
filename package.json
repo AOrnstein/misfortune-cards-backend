@@ -2,6 +2,7 @@
   "name": "misfortune-cards",
   "type": "module",
   "imports": {
+    "#data/*": "./data/*.json",
     "#*": "./*.js"
   },
   "scripts": {
