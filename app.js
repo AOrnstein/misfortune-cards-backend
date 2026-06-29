@@ -19,6 +19,10 @@ app.use(getUserFromToken);
 
 app.get("/", (req, res) => res.send("Hello, World!"));
 
+// Serve images
+app.use("/images", express.static("data/images"));
+
+// Routers
 app.use("/users", usersRouter);
 
 app.use(handlePostgresErrors);
