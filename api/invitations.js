@@ -45,6 +45,13 @@ router.get("/sent", async (req, res) => {
 
 // Updates player's invitation status upon accept or decline.
 router.put("/:id", requireBody(["status"]), async (req, res) => {
+  const validStatuses = ["pending", "accepted", "declined"];
+  if (!validStatuses.includes(req.body.status)) {
+    return res
+      .status(400)
+      .send("Status must be pending, accepted, or declined");
+  }
+
   const invitation = await updateInvitationStatus(
     req.params.id,
     req.body.status,
