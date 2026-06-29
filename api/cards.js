@@ -4,14 +4,11 @@ export default router;
 
 import { getCards, getCardById } from "#db/queries/cards";
 
-// Get an array of all cards
-
+// Get the card category and an array of all cards
 router.get("/", async (req, res) => {
   const cards = await getCards();
   res.send(cards);
 });
-
-// Get a specific card by ID
 
 router.param("id", async (req, res, next, id) => {
   const card = await getCardById(id);
@@ -20,6 +17,7 @@ router.param("id", async (req, res, next, id) => {
   next();
 });
 
+// Get a specific card by ID
 router.get("/:id", (req, res) => {
   res.send(req.card);
 });
