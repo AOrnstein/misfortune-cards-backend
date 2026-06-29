@@ -19,3 +19,16 @@ export async function createGame({ name, dmId }) {
 
   return game;
 }
+
+/** Delete a DM's existing game */
+export async function deleteGame(gameId) {
+  const sql = `
+    DELETE FROM games
+    WHERE id = $1
+    RETURNING *
+  `;
+  const {
+    rows: [game],
+  } = await db.query(sql, [gameId]);
+  return game;
+}
