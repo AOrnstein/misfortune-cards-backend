@@ -5,10 +5,7 @@ export default router;
 import { createUser, getUserByUsernameAndPassword } from "#db/queries/users";
 import requireBody from "#middleware/requireBody";
 import { createToken } from "#utils/jwt";
-/*Route handler used to create an account for user
-requireBody ensures username and password exist
-creates user and token for correct login credentials
-sends 201 successful response. */
+/*Register a new user and return JSON Web Token. */
 router
   .route("/register")
   .post(requireBody(["username", "password"]), async (req, res) => {
@@ -18,9 +15,7 @@ router
     const token = await createToken({ id: user.id });
     res.status(201).send(token);
   });
-/*Token is created for user, finds user with correct
-username and password. If username and pw incorrect
-send 401 verification error. */
+/*Verify a new user and return JSON Web Token. */
 router
   .route("/login")
   .post(requireBody(["username", "password"]), async (req, res) => {
