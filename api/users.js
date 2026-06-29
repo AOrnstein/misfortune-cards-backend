@@ -5,7 +5,9 @@ export default router;
 import { createUser, getUserByUsernameAndPassword } from "#db/queries/users";
 import requireBody from "#middleware/requireBody";
 import { createToken } from "#utils/jwt";
-/*Register a new user and return JSON Web Token. */
+/*
+ * Register a new user and return JSON Web Token. 
+*/
 router
   .route("/register")
   .post(requireBody(["username", "password"]), async (req, res) => {
@@ -15,7 +17,9 @@ router
     const token = await createToken({ id: user.id });
     res.status(201).send(token);
   });
-/*Verify a new user and return JSON Web Token. */
+/*
+ * Verify a new user and return JSON Web Token. 
+*/
 router
   .route("/login")
   .post(requireBody(["username", "password"]), async (req, res) => {
