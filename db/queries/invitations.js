@@ -1,5 +1,6 @@
 import db from "#db/client";
 
+/** Create an invitation to share with another player (DM only) */
 export async function createInvitation(gameId, invitingUserId, invitedUserId) {
   const sql = `
       INSERT INTO invitations
@@ -15,6 +16,7 @@ export async function createInvitation(gameId, invitingUserId, invitedUserId) {
   return invitation;
 }
 
+/** Get all pending invitations received by a player (player only) */
 export async function getPendingInvitationsByUserId(userId) {
   const sql = `
       SELECT *
@@ -27,6 +29,7 @@ export async function getPendingInvitationsByUserId(userId) {
   return invitations;
 }
 
+/** Get all invitations sent to other players (DM only) */
 export async function getSentInvitations(userId) {
   const sql = `
     SELECT *
@@ -38,6 +41,7 @@ export async function getSentInvitations(userId) {
   return invitations;
 }
 
+/** Get an invitation to a specific player for a specific game */
 export async function getInvitationByGameAndUser(gameId, invitedUserId) {
   const sql = `
       SELECT *
@@ -52,6 +56,7 @@ export async function getInvitationByGameAndUser(gameId, invitedUserId) {
   return invitation;
 }
 
+/** Update a player's invitation status (player only) */
 export async function updateInvitationStatus(invitationId, status) {
   const sql = `
     UPDATE invitations
@@ -66,6 +71,7 @@ export async function updateInvitationStatus(invitationId, status) {
   return invitation;
 }
 
+/** Delete a specific invitation */
 export async function deleteInvitation(invitationId) {
   const sql = `
     DELETE FROM invitations
