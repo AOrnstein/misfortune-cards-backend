@@ -14,7 +14,10 @@ export async function createCard({ name, categoryId, cardFrontUrl, content }) {
   } = await db.query(sql, [name, categoryId, cardFrontUrl, content]);
   return card;
 }
-
+/**
+ * Gets all cards from the database.
+ * @returns An array of card objects.
+ */
 export async function getCards() {
   const sql = `
     SELECT * 
@@ -23,7 +26,11 @@ export async function getCards() {
   const { rows: cards } = await db.query(sql);
     return cards;
 }
-
+/**
+ * Gets a single card by its specific ID.
+ * @param {name} id - The ID of the card to get.
+ * @returns The card with matching ID.
+ */
 export async function getCardById(id) {
   const sql = `
     SELECT *
