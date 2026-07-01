@@ -39,7 +39,7 @@ export async function getCardCategoryById(id) {
 /**
  * Get the default CardCategory
  * @returns Default CardCategory if DEFAULT_DECK env varible is diefined and exists
- * @returns First CardCategory in the table if no default is defined or found
+ * @returns CardCategory with ID 1 in the table if no default is defined or found
  */
 export async function getDefaultCardCategory() {
   console.log(DEFAULT_CARD_CATEGORY);
