@@ -16,6 +16,7 @@ router.post("/", requireBody(["name"]), async (req, res) => {
   res.status(201).send(game);
 });
 
+// Get the game by id for routes below
 router.param("id", async (req, res, next, id) => {
   const game = await getGameById(id);
   if (!game) return res.status(404).send("Game not found");
