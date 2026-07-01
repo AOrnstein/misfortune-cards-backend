@@ -14,3 +14,15 @@ export async function createCard({ name, categoryId, cardFrontUrl, content }) {
   } = await db.query(sql, [name, categoryId, cardFrontUrl, content]);
   return card;
 }
+
+/** @returns all cards in the category */
+export async function getCardsByCategoryId(categoryId) {
+  const sql = `
+    SELECT *
+    FROM cards
+    WHERE
+      category_id = $1
+    `;
+  const { rows: cards } = await db.query(sql, [categoryId]);
+  return cards;
+}
