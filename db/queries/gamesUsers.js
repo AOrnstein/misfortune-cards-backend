@@ -14,14 +14,3 @@ export async function createGameUser({ gameId, userId, isDm = false }) {
   } = await db.query(sql, [gameId, userId, isDm]);
   return gameUser;
 }
-
-/** Get a list of games by user id */
-export async function getActiveGamesByUser(userId) {
-  const sql = `
-    SELECT *
-    FROM games_users
-    WHERE user_id = $1
-    `;
-  const { rows: activeGames } = await db.query(sql, [userId]);
-  return activeGames;
-}
