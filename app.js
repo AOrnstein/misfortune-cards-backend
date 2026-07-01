@@ -3,6 +3,7 @@ const app = express();
 export default app;
 
 import usersRouter from "#api/users";
+import cardsRouter from "#api/cards";
 import getUserFromToken from "#middleware/getUserFromToken";
 import handlePostgresErrors from "#middleware/handlePostgresErrors";
 import cors from "cors";
@@ -24,6 +25,7 @@ app.use("/images", express.static("data/images"));
 
 // Routers
 app.use("/users", usersRouter);
+app.use("/cards", cardsRouter);
 
 app.use(handlePostgresErrors);
 app.use((err, req, res, next) => {
