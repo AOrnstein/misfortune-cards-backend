@@ -27,20 +27,6 @@ router.delete("/:id", async (req, res) => {
   res.send(game);
 });
 
-// Add a player to a game (DM only)
-router.post("/:id/players", requireBody(["userId"]), async (req, res) => {
-  const game = await getGameById(req.params.id);
-  if (!game) return res.status(404).send("Game not found");
-  if (game.dm_id !== req.user.id) {
-    return res.status(403).send("Only the DM can add players");
-  }
-  const gameUser = await createGameUser({
-    gameId: req.params.id,
-    userId: req.body.userId,
-  });
-  res.status(201).send(gameUser);
-});
-
 // Remove a player from a game (DM or the player themselves)
 router.delete("/:id/players/:userId", async (req, res) => {
   const game = await getGameById(req.params.id);
