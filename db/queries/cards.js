@@ -40,3 +40,15 @@ export async function getCardById(id) {
   const { rows: [card], } = await db.query(sql, [id]);
     return card;
 }
+
+/** @returns all cards in the category */
+export async function getCardsByCategoryId(categoryId) {
+  const sql = `
+    SELECT *
+    FROM cards
+    WHERE
+      category_id = $1
+    `;
+  const { rows: cards } = await db.query(sql, [categoryId]);
+  return cards;
+}
