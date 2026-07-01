@@ -27,7 +27,8 @@ router.delete("/:id", async (req, res) => {
   res.send(game);
 });
 
-// Remove a player from a game (DM or the player themselves)
+// Remove a player from a game (DM)
+// Remove a self from a game (non-DM user)
 router.delete("/:id/players/:userId", async (req, res) => {
   const game = await getGameById(req.params.id);
   if (!game) return res.status(404).send("Game not found");
@@ -38,6 +39,9 @@ router.delete("/:id/players/:userId", async (req, res) => {
     return res
       .status(403)
       .send("Only the DM or the player can remove a player");
+  }
+  if (isDm && isSelf) {
+    return res.status(403).send("DM cannot remove themselves from their game");
   }
 
   const gameUser = await deleteGameUser(req.params.id, req.params.userId);
