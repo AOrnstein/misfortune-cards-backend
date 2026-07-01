@@ -1,13 +1,14 @@
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS invitations;
 DROP TABLE IF EXISTS decks;
 DROP TABLE IF EXISTS games_users;
 DROP TABLE IF EXISTS games;
 DROP TABLE IF EXISTS cards;
 DROP TABLE IF EXISTS card_categories;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
   id serial PRIMARY KEY,
-  username text NOT NULL UNIQUE, 
+  username text UNIQUE NOT NULL,
   password text NOT NULL
 );
 
@@ -22,7 +23,7 @@ CREATE TABLE card_categories (
 CREATE TABLE cards (
   id serial PRIMARY KEY,
   name text NOT NULL,
-  category integer NOT NULL REFERENCES card_categories(id) ON DELETE CASCADE,
+  category_id integer NOT NULL REFERENCES card_categories(id) ON DELETE CASCADE,
   card_front_url text NOT NULL,
   content json NOT NULL
 );
@@ -31,7 +32,7 @@ CREATE TABLE games (
   id serial PRIMARY KEY,
   name text NOT NULL,
   dm_id integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  created_at timestamp NOT NULL
+  created_at timestamp NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE games_users (
@@ -46,4 +47,13 @@ CREATE TABLE decks (
   game_id integer NOT NULL REFERENCES games(id) ON DELETE CASCADE,
   user_id integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   card_id integer NOT NULL REFERENCES cards(id) ON DELETE CASCADE
+);
+
+CREATE TABLE invitations (
+  id serial PRIMARY KEY,
+  game_id integer NOT NULL REFERENCES games(id) ON DELETE CASCADE,
+  invited_by integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  invited_user integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  status text NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'declined')),
+  created_at timestamp NOT NULL DEFAULT NOW()
 );
