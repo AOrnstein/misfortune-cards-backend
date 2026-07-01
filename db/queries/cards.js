@@ -28,7 +28,7 @@ export async function getCards() {
 }
 /**
  * Gets a single card by its specific ID.
- * @param {name} id - The ID of the card to get.
+ * @param {number} id - The ID of the card to get.
  * @returns The card with matching ID.
  */
 export async function getCardById(id) {
@@ -39,4 +39,18 @@ export async function getCardById(id) {
 
   const { rows: [card], } = await db.query(sql, [id]);
     return card;
+}
+/**
+ * Gets all cards for a specific category.
+ * @param {number} categoryId - The ID of the category to get cards for.
+ * @returns An array of card objects.
+ */
+export async function getCardsByCategoryId(categoryId) {
+  const sql = `
+    SELECT *
+    FROM cards
+    WHERE category_id = $1`;
+
+  const { rows: cards } = await db.query(sql, [categoryId]);
+  return cards;
 }
