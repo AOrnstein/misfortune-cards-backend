@@ -3,6 +3,7 @@ const app = express();
 export default app;
 
 import usersRouter from "#api/users";
+import gamesRouter from "#api/games";
 import invitationsRouter from "#api/invitations";
 import cardsRouter from "#api/cards";
 
@@ -27,6 +28,7 @@ app.use("/images", express.static("data/images"));
 
 // Routers
 app.use("/users", usersRouter);
+app.use("/games", gamesRouter);
 app.use("/invitations", invitationsRouter);
 app.use("/cards", cardsRouter);
 
