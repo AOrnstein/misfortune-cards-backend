@@ -33,6 +33,33 @@ export async function getGameById(gameId) {
   return game;
 }
 
+/** Get a game by invite code */
+export async function getGameByInviteCode(inviteCode) {
+  const sql = `
+    SELECT *
+    FROM games
+    WHERE invite_code = $1
+  `;
+  const {
+    rows: [game],
+  } = await db.query(sql, [inviteCode]);
+  return game;
+}
+
+/** Regenerate an invite code for a specific game */
+export async function regenerateInviteCode(gameId) {
+  const sql = `
+    UPDATE games
+    SET invite_code = get_random_uuid()
+    WHERE id = $1
+    RETURNING *
+  `;
+  const {
+    rows: [game],
+  } = await db.query(sql, [gameId]);
+  return game;
+}
+
 /** Delete a DM's existing game */
 export async function deleteGame(gameId) {
   const sql = `
