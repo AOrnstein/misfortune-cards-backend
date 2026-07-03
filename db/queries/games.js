@@ -46,7 +46,10 @@ export async function getGameByInviteCode(inviteCode) {
   return game;
 }
 
-/** Regenerate an invite code for a specific game */
+/**
+ * Regenerate a random invite code for a specific game
+ * @returns game with the new invite code
+ */
 export async function regenerateInviteCode(gameId) {
   const sql = `
     UPDATE games

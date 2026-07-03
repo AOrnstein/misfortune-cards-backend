@@ -50,12 +50,12 @@ router.param("id", async (req, res, next, id) => {
 });
 
 // Regenerate invite code (DM only)
-router.put("/:id/invite-code", async (req, res) => {
+router.post("/:id/invite-code", async (req, res) => {
   if (req.game.dm_id !== req.user.id) {
     return res.status(403).send("Only the DM can regenerate the invite code");
   }
   const game = await regenerateInviteCode(req.game.id);
-  res.send(game);
+  res.send({ invite_code: game.invite_code });
 });
 
 // Delete a game (DM only)
