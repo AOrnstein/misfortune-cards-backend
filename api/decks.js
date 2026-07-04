@@ -43,7 +43,7 @@ router.post(
     const { cardId } = req.body;
     const userId = req.user.id;
 
-    const deck = await addCardToDeck(gameId, userId, cardId);
+    const deck = await addCardToDeck({ gameId, userId, cardId });
 
     res.status(201).send(deck);
 });
@@ -53,7 +53,7 @@ router.delete("/games/:gameId/deck/cards/:cardId", async (req, res) => {
     const { gameId, cardId } = req.params;
     const userId = req.user.id;
 
-    await removeCardFromDeck(gameId, cardId, userId);
+    await removeCardFromDeck({ gameId, cardId, userId });
 
     res.status(204).send();
 });

@@ -1,7 +1,7 @@
 import db from "#db/client";
 
 /** Add card to the player's deck for the game */
-export async function addCardToDeck( gameId, userId, cardId ) {
+export async function addCardToDeck({ gameId, userId, cardId }) {
   const sql = `
     INSERT INTO decks
       (game_id, user_id, card_id)
@@ -38,7 +38,7 @@ export async function getDecksByGameId(gameId) {
   return decks;
 }
 /** Removes a card from the player's deck */
-export async function removeCardFromDeck(gameId, cardId, userId) {
+export async function removeCardFromDeck({ gameId, cardId, userId }) {
   const sql = `
     DELETE FROM decks
     WHERE game_id = $1 AND card_id = $2 AND user_id = $3
