@@ -1,19 +1,19 @@
 import db from "#db/client";
 
-/** Initialize the deck by inserting the entire card list */
-export async function initializeGameDeck({ gameId, dmId, cardId }) {
+/** Fetch all cards to form game deck */
+export async function getDeck({ gameId, userId }) {
   const sql = `
-  INSERT INTO decks
-    (game_id, user_id, card_id)
-  VALUES 
-    ($1, $2, card.id 
-    FROM cards WHERE card.id = $3)
-  RETURNING *
+  SELECT 
+    c.id AS card_id, 
+    c.name, c.category_id, c.card_front_url, c.content, 
+    d.id AS deck_entry_id 
+  FROM 
+    decks d INNER JOIN cards c ON d.card_id = c.id 
+  WHERE 
+    d.game_id = $1 AND d.user_id = $2
   `;
 
-  const {
-    rows: [deck],
-  } = await db.query(sql, [gameId, dmId, cardId]);
+  const { rows = [deck] } = await db.query(sql, [gameId, userId]);
   return deck;
 }
 
