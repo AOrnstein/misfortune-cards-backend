@@ -37,4 +37,58 @@ export async function getActiveGamesByUserId(userId) {
   `;
   const { rows: games } = await db.query(sql, [userId]);
   return games;
+/** Get a game by id */
+export async function getGameById(gameId) {
+  const sql = `
+    SELECT *
+    FROM games
+    WHERE id = $1
+  `;
+  const {
+    rows: [game],
+  } = await db.query(sql, [gameId]);
+  return game;
+}
+
+/** Get a game by invite code */
+export async function getGameByInviteCode(inviteCode) {
+  const sql = `
+    SELECT *
+    FROM games
+    WHERE invite_code = $1
+  `;
+  const {
+    rows: [game],
+  } = await db.query(sql, [inviteCode]);
+  return game;
+}
+
+/**
+ * Regenerate a random invite code for a specific game
+ * @returns game with the new invite code
+ */
+export async function regenerateInviteCode(gameId) {
+  const sql = `
+    UPDATE games
+    SET invite_code = get_random_uuid()
+    WHERE id = $1
+    RETURNING *
+  `;
+  const {
+    rows: [game],
+  } = await db.query(sql, [gameId]);
+  return game;
+}
+
+/** Delete a DM's existing game */
+export async function deleteGame(gameId) {
+  const sql = `
+    DELETE FROM games
+    WHERE id = $1
+    RETURNING *
+  `;
+  const {
+    rows: [game],
+  } = await db.query(sql, [gameId]);
+  return game;
 }
