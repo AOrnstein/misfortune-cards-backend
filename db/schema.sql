@@ -34,7 +34,7 @@ CREATE TABLE games (
   dm_id integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   current_card_id integer REFERENCES cards(id) ON DELETE SET NULL,
   is_revealed boolean,
-  created_at timestamp NOT NULL DEFAULT NOW(),
+  current_card_facing text,
   state_updated timestamp NOT NULL DEFAULT NOW
 );
 
