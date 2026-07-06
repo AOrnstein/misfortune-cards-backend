@@ -27,6 +27,7 @@ export async function getDeckByGameId(gameId) {
   const { rows: [decks] } = await db.query(sql, [gameId]);
   return decks;
 }
+
 /** Removes a card from the player's deck */
 export async function removeCardFromDeck({ gameId, cardId }) {
   const sql = `

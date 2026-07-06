@@ -4,11 +4,19 @@ export default router;
 
 import requireUser from "#middleware/requireUser";
 import requireBody from "#middleware/requireBody";
+import requireGameUser from "#middleware/requireGameUser";
 
 import { createGame, deleteGame, getGameById } from "#db/queries/games";
 import { createGameUser, deleteGameUser } from "#db/queries/gamesUsers";
+import {
+    addCardToDeck,
+    removeCardFromDeck,
+    getDeckByGameId
+} from "#db/queries/decks";
+
 
 router.use(requireUser);
+router.use(requireGameUser);
 
 // Create a new game (Logged-in user becomes DM)
 router.post("/", requireBody(["name"]), async (req, res) => {
@@ -50,4 +58,39 @@ router.delete("/:id/players/:userId", async (req, res) => {
   const gameUser = await deleteGameUser(req.game.id, req.params.userId);
   if (!gameUser) return res.status(404).send("Player not found in game");
   res.send(gameUser);
+});
+
+// Deck Routes
+
+// Gets all decks for a game.
+router.get(":id/deck", async (req, res) => {
+    const { id: gameId } = req.params;
+
+    const deck = await getDeckByGameId(gameId);
+
+    res.send(deck);
+});
+
+// Adds a card to the logged-in user's deck for a game.
+router.post(
+    "/:id/deck/cards", 
+    requireBody(["cardId"]),
+    async (req, res) => {
+
+    const { id: gameId } = req.params;
+    const { cardId } = req.body;
+
+    const deck = await addCardToDeck({ gameId, cardId });
+
+    res.status(201).send(deck);
+});
+
+// Removes a card from the logged-in user's deck.
+router.delete("/:id/deck/cards/:cardId", async (req, res) => {
+    const { id: gameId } = req.params; 
+    const { cardId } = req.params;
+
+    await removeCardFromDeck({ gameId, cardId });
+
+    res.status(204).send();
 });
