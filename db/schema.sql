@@ -32,6 +32,10 @@ CREATE TABLE games (
   id serial PRIMARY KEY,
   name text NOT NULL,
   dm_id integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  current_card_id integer REFERENCES cards(id) ON DELETE SET NULL,
+  is_revealed boolean,
+  current_card_facing text,
+  state_updated timestamp NOT NULL DEFAULT NOW
   created_at timestamp NOT NULL DEFAULT NOW(),
   invite_code UUID NOT NULL DEFAULT gen_random_uuid()
 );
