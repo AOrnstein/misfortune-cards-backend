@@ -33,7 +33,6 @@ async function seed() {
   for (const card of cards) {
     await addCardToDeck({
       gameId: game.id,
-      userId: userPlayer.id,
       cardId: card.id,
     });
   }

@@ -50,7 +50,6 @@ CREATE TABLE games_users (
 CREATE TABLE decks (
   id serial PRIMARY KEY,
   game_id integer NOT NULL REFERENCES games(id) ON DELETE CASCADE,
-  user_id integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   card_id integer NOT NULL REFERENCES cards(id) ON DELETE CASCADE
 );
 
