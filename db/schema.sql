@@ -35,7 +35,7 @@ CREATE TABLE games (
   current_card_id integer REFERENCES cards(id) ON DELETE SET NULL,
   is_revealed boolean,
   current_card_facing text,
-  state_updated timestamp NOT NULL DEFAULT NOW
+  state_updated timestamp NOT NULL DEFAULT NOW(),
   created_at timestamp NOT NULL DEFAULT NOW(),
   invite_code UUID NOT NULL DEFAULT gen_random_uuid()
 );
