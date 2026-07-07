@@ -20,6 +20,23 @@ export async function createGame({ name, dmId }) {
   return game;
 }
 
+/** Get a list of games by user id */
+export async function getActiveGamesByUserId(userId) {
+  const sql = `
+    SELECT 
+      g.id AS game_id,
+      g.name AS game_name,
+      g.dm_id,
+      g.created_at,
+      gu.is_dm
+    FROM
+      games_users gu
+      JOIN games g ON gu.game_id = g.id
+      WHERE gu.user_id = $1
+      ORDER BY g.created_at DESC;
+  `;
+  const { rows: games } = await db.query(sql, [userId]);
+  return games;
 /** Get a game by id */
 export async function getGameById(gameId) {
   const sql = `
