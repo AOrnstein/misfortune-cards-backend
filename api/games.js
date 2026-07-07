@@ -61,14 +61,6 @@ router.delete("/:id/players/:userId", async (req, res) => {
 
 // Deck Routes
 
-// Get the game by id for routes below
-router.param("id", async (req, res, next, id) => {
-  const game = await getGameById(id);
-  if (!game) return res.status(404).send("Game not found");
-  req.game = game;
-  next();
-});
-
 // Gets the deck for a game.
 router.get(":id/deck",
   requireGameUser,

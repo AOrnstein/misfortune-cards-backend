@@ -16,7 +16,7 @@ export async function createGameUser({ gameId, userId, isDm = false }) {
 }
 
 /** Get a player from a game */
-export async function getGameUser({ gameId, userId }) {
+export async function getGameUser( gameId, userId ) {
   const sql = `
     SELECT *
     FROM games_users
