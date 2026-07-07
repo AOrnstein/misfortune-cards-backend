@@ -15,6 +15,20 @@ export async function createGameUser({ gameId, userId, isDm = false }) {
   return gameUser;
 }
 
+/** Get a player's membership in a game */
+export async function getGameUser(gameId, userId) {
+  const sql = `
+    SELECT *
+    FROM games_users
+    WHERE game_id = $1
+      AND user_id = $2
+    `;
+  const {
+    rows: [gameUser],
+  } = await db.query(sql, [gameId, userId]);
+  return gameUser;
+}
+
 /** Delete a player from a game */
 export async function deleteGameUser({ gameId, userId }) {
   const sql = `

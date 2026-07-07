@@ -57,9 +57,9 @@ async function initDbWithDeckOfManyThings() {
       await createCard({
         name: card.name,
         categoryId: category.id,
-        description: card.description,
         cardFrontUrl: card.image_url,
         content: {
+          description: card.description,
           upright: card.upright,
           reversed: card.reversed,
         },

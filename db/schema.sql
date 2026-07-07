@@ -36,6 +36,8 @@ CREATE TABLE games (
   is_revealed boolean,
   current_card_facing text,
   state_updated timestamp NOT NULL DEFAULT NOW
+  created_at timestamp NOT NULL DEFAULT NOW(),
+  invite_code UUID NOT NULL DEFAULT gen_random_uuid()
 );
 
 CREATE TABLE games_users (
@@ -52,11 +54,4 @@ CREATE TABLE decks (
   card_id integer NOT NULL REFERENCES cards(id) ON DELETE CASCADE
 );
 
-CREATE TABLE invitations (
-  id serial PRIMARY KEY,
-  game_id integer NOT NULL REFERENCES games(id) ON DELETE CASCADE,
-  invited_by integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  invited_user integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  status text NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'declined')),
-  created_at timestamp NOT NULL DEFAULT NOW()
-);
+
