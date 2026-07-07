@@ -11,12 +11,12 @@ export async function addCardToDeck({ gameId, cardId }) {
     `;
 
   const {
-    rows: [decks],
+    rows: [card],
   } = await db.query(sql, [gameId, cardId]);
-  return decks;
+  return card;
 }
 
-/** Gets all decks for a specific game */
+/** Get deck for a specific game */
 export async function getDeckByGameId(gameId) {
   const sql = `
     SELECT *
@@ -24,16 +24,20 @@ export async function getDeckByGameId(gameId) {
     WHERE game_id = $1
   `;
 
-  const { rows: [decks] } = await db.query(sql, [gameId]);
-  return decks;
+  const { rows: deck } = await db.query(sql, [gameId]);
+  return deck;
 }
 
-/** Removes a card from the player's deck */
+/** Remove a card from the player's deck */
 export async function removeCardFromDeck({ gameId, cardId }) {
   const sql = `
     DELETE FROM decks
     WHERE game_id = $1 AND card_id = $2
+    RETURNING *
   `;
 
-  await db.query(sql, [gameId, cardId]);
+  const {
+    rows: [card],
+  } = await db.query(sql, [gameId, cardId]);
+  return card;
 }
