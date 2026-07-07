@@ -20,11 +20,30 @@ export async function createGame({ name, dmId }) {
   return game;
 }
 
-/** Get a game by id */
+/** Get all games by user id */
+export async function getGamesByUserId(userId) {
+  const sql = `
+    SELECT 
+      g.id,
+      g.name,
+      g.dm_id,
+      g.created_at,
+      gu.is_dm
+    FROM
+      games_users gu
+      JOIN games g ON gu.game_id = g.id
+    WHERE gu.user_id = $1
+    ORDER BY g.created_at DESC;
+  `;
+  const { rows: games } = await db.query(sql, [userId]);
+  return games;
+}
+
+/** Get game details by id. */
 export async function getGameById(gameId) {
   const sql = `
-    SELECT *
-    FROM games
+    SELECT * 
+    FROM games 
     WHERE id = $1
   `;
   const {
@@ -53,7 +72,7 @@ export async function getGameByInviteCode(inviteCode) {
 export async function regenerateInviteCode(gameId) {
   const sql = `
     UPDATE games
-    SET invite_code = get_random_uuid()
+    SET invite_code = gen_random_uuid()
     WHERE id = $1
     RETURNING *
   `;

@@ -15,7 +15,20 @@ export async function createGameUser({ gameId, userId, isDm = false }) {
   return gameUser;
 }
 
-/** Get a player's membership in a game */
+/** Get all players in a game */
+export async function getPlayersByGameId(gameId) {
+  const sql = `
+    SELECT gu.user_id AS id, u.username AS name, gu.is_dm
+    FROM 
+      games_users gu
+      JOIN users u ON gu.user_id = u.id
+    WHERE gu.game_id = $1
+  `;
+  const { rows } = await db.query(sql, [gameId]);
+  return rows;
+}
+
+/** Get a single player's membership in a game */
 export async function getGameUser(gameId, userId) {
   const sql = `
     SELECT *
@@ -30,11 +43,11 @@ export async function getGameUser(gameId, userId) {
 }
 
 /** Delete a player from a game */
-export async function deleteGameUser({ gameId, userId }) {
+export async function deleteGameUser(gameId, userId) {
   const sql = `
     DELETE FROM games_users
-    WHERE gameId = $1 
-      AND userId = $2
+    WHERE game_id = $1 
+      AND user_id = $2
     RETURNING *  
   `;
   const {
