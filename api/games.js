@@ -18,6 +18,7 @@ import {
   getGameById,
   regenerateInviteCode,
   deleteGame,
+  updateGameState,
 } from "#db/queries/games";
 import {
   getGameUser,
@@ -159,3 +160,25 @@ router.delete("/:id/deck/:cardId", requireGameUser, async (req, res) => {
 
   res.status(204).send();
 });
+
+// Update game state (active card changes and reveal states)
+router.patch(
+  "/:id/games",
+  requireGameUser,
+  requireBody(["currentCardId", "isRevealed", "currentCardFacing"]),
+  async (req, res) => {
+    const { currentCardId, isRevealed, currentCardFacing } = req.body;
+
+    if (req.game.dm_id !== req.user.id) {
+      return res.status(403).send("Only the DM can update game state.");
+    }
+
+    const updatedGame = await updateGameState(
+      req.game.id,
+      currentCardId,
+      isRevealed,
+      currentCardFacing,
+    );
+    res.send(updatedGame);
+  },
+);
