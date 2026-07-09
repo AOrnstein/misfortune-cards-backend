@@ -52,6 +52,36 @@ export async function getGameById(gameId) {
   return game;
 }
 
+/** Update game state */
+
+export async function updateGameState(
+  gameId,
+  currentCardId,
+  isRevealed,
+  currentCardFacing,
+) {
+  const sql = `
+  UPDATE games
+  SET
+    current_card_id = $1,
+    is_revealed = $2,
+    current_card_facing = $3, 
+    state_updated = NOW()
+  WHERE id = $4
+  RETURNING *
+  `;
+
+  const {
+    rows: [game],
+  } = await db.query(sql, [
+    currentCardId,
+    isRevealed,
+    currentCardFacing,
+    gameId,
+  ]);
+  return game;
+}
+
 /** Get a game by invite code */
 export async function getGameByInviteCode(inviteCode) {
   const sql = `
