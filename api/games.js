@@ -169,10 +169,6 @@ router.patch(
   async (req, res) => {
     const { currentCardId, isRevealed, currentCardFacing } = req.body;
 
-    if (req.game.dm_id !== req.user.id) {
-      return res.status(403).send("Only the DM can update game state.");
-    }
-
     const updatedGame = await updateGameState(
       req.game.id,
       currentCardId,
